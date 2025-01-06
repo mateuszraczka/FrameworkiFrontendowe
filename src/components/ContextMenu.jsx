@@ -1,9 +1,16 @@
-export default function ContextMenu({contextMenuContent, position}){
-    
-
+export default function ContextMenu({contextMenuContent, position, setLoading}){
     const handleClick = async (action) => {
         const id = contextMenuContent.id;
-        action(id);
+        try{
+            setLoading(true);
+            await action(id);
+        }
+        catch(error){
+
+        }
+        finally{
+            setLoading(false);
+        }
     }
 
     return(
@@ -15,7 +22,7 @@ export default function ContextMenu({contextMenuContent, position}){
           }}
         >
             {contextMenuContent.options.map((option) => (
-                <button onClick={() => handleClick(option.action)} key={option.action} className="px-4 py-2 hover:bg-gray-200">{option.title}</button>
+                option.isVisible && <button onClick={() => handleClick(option.action)} key={option.title} className="px-4 py-2 hover:bg-gray-200">{option.title}</button>
             ))}
         </div>
     )

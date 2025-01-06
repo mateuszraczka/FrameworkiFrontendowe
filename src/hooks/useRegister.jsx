@@ -1,20 +1,23 @@
 import { registerService } from "@/services/registerService"
 import { useAuthContext } from "@/contexts/AuthContext";
+import { useState } from "react";
 
 export default function useRegister(){
-    const { state, dispatch } = useAuthContext();
+    const { dispatch } = useAuthContext();
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState();
 
     const register = async (username, password) => {
         try {
-            dispatch({ type: "LOADING", payload: true });
+            setLoading(true);
             const data = await registerService(username, password);
             dispatch({ type: "REGISTER", payload: data });
         } catch (error) {
-            dispatch({ type: "ERROR", payload: error });
+            setError(error.message);
         } finally {
-            dispatch({ type: "LOADING", payload: false });
+            setLoading(false);
         }
     }
     
-    return { error: state.error, loading: state.loading, register, auth: state.auth }
+    return { error, loading, register }
 }

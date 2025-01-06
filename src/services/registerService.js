@@ -1,16 +1,12 @@
-import axios from 'axios';
+import { basePostService } from './base/basePostService';
 
-export function registerService(email, password) {
-    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-    return axios.post(`${baseUrl}/user/register`, { username: email, email, password }, {
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    })
-    .then(response => {
-        if (response.data.error) {
-            throw new Error(response.data.error);
-        }
-        return response.data;
-    });
+export async function registerService(email, password) {
+    const endpoint = "/user/register";
+    const body = {
+        username: email,
+        email: email,
+        password: password
+    }
+    
+    return await basePostService("", endpoint, body);
 }

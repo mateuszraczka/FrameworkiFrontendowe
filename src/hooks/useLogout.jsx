@@ -1,18 +1,21 @@
 import { useAuthContext } from "@/contexts/AuthContext"
+import { useState } from "react";
 
 export default function useLogout(){
     const { dispatch } = useAuthContext();
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState();
 
     const logout = async () => {
         try {
-            dispatch({ type: "SET_LOADING", payload: true });
+            setLoading(true);
             dispatch({ type: "LOGOUT" });
         } catch (error) {
-            dispatch({ type: "SET_ERROR", payload: error });
+            setError(error.message);
         } finally {
-            dispatch({ type: "SET_LOADING", payload: false });
+            setLoading(false);
         }
     }
 
-    return { error: state.error, loading: state.loading, logout }
+    return { error, loading, logout }
 }

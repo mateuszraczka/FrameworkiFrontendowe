@@ -1,40 +1,66 @@
 export const initialState = {
-    copied: [],
-    cut: [],
-    error: null,
+    copied: {
+        filesIds: [],
+        foldersIds: []
+    },
+    downloading: [],
 };
-  
-  export default function ActionsReducer(state = initialState, action) {
+
+export default function ActionsReducer(state = initialState, action) {
     switch (action.type) {
-        case "COPY":
-            console.log("copy")
+        case "COPY_FILE":
             return {
                 ...state,
-                copied: action.payload.copy
+                copied: {
+                    ...state.copied,
+                    filesIds: [...state.copied.filesIds, action.payload],
+                }
             }
-        case "CUT":
-            console.log("cut")
-            return{
-                ...state,
-                cut: action.payload.cut
-            }
-        case "DELETE":
-            console.log("delete")
-            return{
-                ...state,
-                deleted: action.payload
-            }
-        case "SET_ERROR":
+        case "COPY_FOLDER":
             return {
                 ...state,
-                error: action.payload.error
+                copied: {
+                    ...state.copied,
+                    foldersIds: [action.payload]
+                }
             }
-        case "SET_LOADING":
+        case "CUT_FILE":
             return {
                 ...state,
-                loading: action.payload.loading
+                copied: {
+                    ...state.copied,
+                    filesIds: [...state.copied.filesIds, action.payload],
+                }
             }
-      default:
-        return state;
+        case "CUT_FOLDER":
+            return {
+                ...state,
+                copied: {
+                    ...state.copied,
+                    foldersIds: [...state.copied.foldersIds, action.payload],
+                }
+            }
+        case "PASTE":
+            return {
+                ...state,
+                copied: {
+                    filesIds: [],
+                    foldersIds: []
+                }
+            }
+        case "ADD_DOWNLOAD":
+            return {
+                ...state,
+                downloading: [...state.downloading, action.payload]
+            }
+        case "REMOVE_DOWNLOAD":
+            const updatedDownloading = state.downloading.filter((download) => download.id !== action.payload)
+
+            return {
+                ...state,
+                downloading: updatedDownloading
+            }
+        default:
+            return state;
     }
-  }
+}

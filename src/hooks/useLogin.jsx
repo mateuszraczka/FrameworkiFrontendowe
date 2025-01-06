@@ -1,20 +1,23 @@
 import { useAuthContext } from "@/contexts/AuthContext"
 import { loginService } from "@/services/loginService"
+import { useState } from "react"
 
 export default function useLogin(){
-    const { state, dispatch } = useAuthContext()
+    const { dispatch } = useAuthContext()
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState();
 
     const login = async (username, password) => {
         try {
-            dispatch({ type: "SET_LOADING", payload: true })
+            setLoading(true);
             const data = await loginService(username, password)
             dispatch({ type: "LOGIN", payload: data })
         } catch (error) {
-            dispatch({ type: "SET_ERROR", payload: error })
+            setError(error.message);
         } finally {
-            dispatch({ type: "SET_LOADING", payload: false })
+            setLoading(false);
         }
     }
 
-    return { error: state.error, loading: state.loading, login: login, auth: state.auth }
+    return { error, loading, login: login }
 }

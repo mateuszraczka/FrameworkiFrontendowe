@@ -11,9 +11,7 @@ export default function RootLayout({ children }) {
         <AuthContextProvider>
           <ContextMenuContextProvider>
             <FolderContextProvider>
-              <ActionsContextProvider>
-                {children}
-              </ActionsContextProvider>
+              <ActionsContextProvider>{children}</ActionsContextProvider>
             </FolderContextProvider>
           </ContextMenuContextProvider>
         </AuthContextProvider>

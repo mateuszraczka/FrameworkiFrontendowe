@@ -1,17 +1,8 @@
-import axios from 'axios';
+import { basePostService } from './base/basePostService';
 
-export function loginService(username, password) {
-    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+export async function loginService(username, password) {
+    const endpoint = "/user/login";
+    const body = {username, password};
 
-    return axios.post(`${baseUrl}/user/login`, { username, password })
-        .then(response => {
-            if (response.data.error) {
-                throw new Error(response.data.error);
-            }
-            return response.data;
-        })
-        .catch(error => {
-            console.error('Network error:', error);
-            throw error;
-        });
+    return await basePostService("", endpoint, body);;
 }

@@ -1,10 +1,12 @@
 import { useActionsContext } from "@/contexts/ActionsContext";
 import GenericFileSystemCard from "./GenericFileSystemCard";
 import { useRouter } from "next/navigation";
+import usePaste from "@/hooks/usePaste";
 
 export default function FolderCard({name, id}) {
     const router = useRouter();
-    const { dispatch } = useActionsContext();
+    const { state: actionsState, dispatch: actionsDispatch } = useActionsContext();
+    const { paste } = usePaste();
 
     const handleDoubleClick = async () => {
         const currentPath = window.location.pathname;
@@ -17,26 +19,38 @@ export default function FolderCard({name, id}) {
             {
               title: "Open",
               action: async () => await handleDoubleClick(),
+              isVisible: true
             },
             {
               title: "Copy",
-              action: () => dispatch({type:"COPY", payload: id}),
+              action: () => actionsDispatch({type:"COPY_FOLDER", payload: id}),
+              isVisible: true
             },
             {
               title: "Cut",
-              action: () => dispatch({type:"CUT", payload: id}),
+              action: () => actionsDispatch({type:"CUT_FOLDER", payload: id}),
+              isVisible: true
             },
             {
               title: "Paste",
-              action: () => dispatch({type:"PASTE", payload: id}),
+              action: async () => {
+                await paste({
+                  filesIds: actionsState.copied.filesIds,
+                  foldersIds: [],
+                  targetFolderId: id
+                });
+              },
+              isVisible: actionsState.copied.filesIds.length > 0 || actionsState.copied.foldersIds.length > 0
             },
             {
               title: "Rename",
               action: () => {},
+              isVisible: true
             },
             {
               title: "Delete",
               action: () => dispatch({type:"DELETE", payload:id}),
+              isVisible: true
             },
           ]
     }

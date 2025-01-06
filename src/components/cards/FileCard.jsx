@@ -1,39 +1,48 @@
-import { useActionsContext } from "@/contexts/ActionsContext";
+import useDownload from "@/hooks/useDownload";
 import GenericFileSystemCard from "./GenericFileSystemCard";
+import useDelete from "@/hooks/useDelete";
+import { useActionsContext } from "@/contexts/ActionsContext";
 
 export default function FileCard({name, id, icon}) {
-    const { dispatch } = useActionsContext();
+    const { batchDelete } = useDelete();
+    const { download } = useDownload();
+    const { state: actionsState, dispatch: actionsDispatch } = useActionsContext();
 
     const contextMenuContent = {
         id,
         options: [
             {
                 title: "Copy",
-                action: () => {
-                    dispatch({type: "COPY", payload: id})
+                action: async () => {
+                    actionsDispatch({type: "COPY_FILE", payload: id})
                 },
+                isVisible: true,
             },
             {
                 title: "Cut",
-                action: () => {
-                    dispatch({type: "CUT", payload: id})
-                }
+                action: async () => {
+                    actionsDispatch({type: "CUT_FILE", payload: id})
+                },
+                isVisible: true,
             },
             {
                 title: "Download",
-                action: () => {
-                    dispatch({type: "DOWNLOAD", payload: id})
-                }
+                action: async () => {
+                    await download(id, name);
+                },
+                isVisible: true,
             },
             {
                 title: "Rename",
-                action: () => {}
+                action: async () => {},
+                isVisible: true,
             },
             {
                 title: "Delete",
-                action: () => {
-                    dispatch({type: "DELETE", payload: id})
-                }
+                action: async () => {
+                    await batchDelete([id], [])
+                },
+                isVisible: true,
             },
         ]
     };
