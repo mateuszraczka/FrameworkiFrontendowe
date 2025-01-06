@@ -1,18 +1,21 @@
 import Link from "next/link";
 
-export default function FolderPath({path}) {
+export default function FolderPath({ path }) {
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2 w-full">
+      <div className="flex gap-2">
+        <Link href={"/my-storage"}>My storage</Link>
+        <span>/</span>
+      </div>
+
       {path.map((folder) => {
         return (
-          <div className="flex gap-2" key={folder.id}>
-            {folder.name == null ? (
-              <Link href={"/mystorage"}>My Storage</Link>
-            ) : (
-              <Link href={`/mystorage/${folder.id}`}>{folder.name}</Link>
-            )}
-            <span>/</span>
-          </div>
+          folder.name && (
+            <div className="flex gap-2" key={folder.id}>
+              <Link href={`/my-storage/${folder.id}`}>{folder.name}</Link>
+              <span>/</span>
+            </div>
+          )
         );
       })}
     </div>

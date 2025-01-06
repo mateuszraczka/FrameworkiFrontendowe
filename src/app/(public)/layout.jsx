@@ -7,7 +7,7 @@ export default function PublicLayout({ children }) {
   const { state } = useAuthContext();
 
   if (state.auth) {
-    redirect("/mystorage");
+    redirect("/my-storage");
   }
 
   return children;

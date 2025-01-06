@@ -3,12 +3,10 @@
 import FilesGrid from "@/components/layout/FilesGrid";
 import FileCard from "@/components/cards/FileCard";
 import FolderCard from "@/components/cards/FolderCard";
-import FilesNotFoundPlaceholder from "../placeholders/FilesNotFoundPlaceholder";
 
 export default function FileStorageView({ childFolders, files }) {
-  console.log(files, childFolders)
-  return childFolders.length > 0 || files.length > 0 ? (
-    <FilesGrid>
+  return (
+    <FilesGrid isEmpty={childFolders.length < 1 && files.length < 1}>
       {childFolders?.length > 0 &&
         childFolders.map((folder) => (
           <FolderCard
@@ -27,7 +25,5 @@ export default function FileStorageView({ childFolders, files }) {
           />
         ))}
     </FilesGrid>
-  ) : (
-    <FilesNotFoundPlaceholder></FilesNotFoundPlaceholder>
   );
 }

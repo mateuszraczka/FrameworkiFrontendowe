@@ -3,6 +3,10 @@ export const initialState = {
         filesIds: [],
         foldersIds: []
     },
+    cut: {
+        filesIds: [],
+        foldersIds: []
+    },
     downloading: [],
 };
 
@@ -14,39 +18,41 @@ export default function ActionsReducer(state = initialState, action) {
                 copied: {
                     ...state.copied,
                     filesIds: [...state.copied.filesIds, action.payload],
-                }
+                },
+                cut: initialState.cut
             }
         case "COPY_FOLDER":
             return {
                 ...state,
                 copied: {
                     ...state.copied,
-                    foldersIds: [action.payload]
-                }
+                    foldersIds: [...state.copied.foldersIds, action.payload]
+                },
+                cut: initialState.cut
             }
         case "CUT_FILE":
             return {
                 ...state,
-                copied: {
-                    ...state.copied,
-                    filesIds: [...state.copied.filesIds, action.payload],
-                }
+                cut: {
+                    ...state.cut,
+                    filesIds: [...state.cut.filesIds, action.payload],
+                },
+                copied: initialState.copied
             }
         case "CUT_FOLDER":
             return {
                 ...state,
-                copied: {
-                    ...state.copied,
-                    foldersIds: [...state.copied.foldersIds, action.payload],
-                }
+                cut: {
+                    ...state.cut,
+                    foldersIds: [...state.cut.foldersIds, action.payload],
+                },
+                copied: initialState.copied
             }
         case "PASTE":
             return {
                 ...state,
-                copied: {
-                    filesIds: [],
-                    foldersIds: []
-                }
+                copied: initialState.copied,
+                cut: initialState.cut
             }
         case "ADD_DOWNLOAD":
             return {

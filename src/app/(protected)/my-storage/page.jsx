@@ -4,7 +4,7 @@ import Header from "@/components/layout/Header";
 import Main from "@/components/layout/Main";
 import useOpenRootFolder from "@/hooks/useOpenRootFolder";
 import { useEffect } from "react";
-import LoadingFullscreen from "@/components/loading/LoadingFullscreen";
+import Loading from "@/components/loading/Loading";
 import FileStorageView from "@/components/layout/FileStorageView";
 
 export default function HomePage() {
@@ -16,15 +16,20 @@ export default function HomePage() {
 
   return (
     <>
-      <Header title="My Storage" />
-      <Main>
-        <LoadingFullscreen isLoading={loading} width={"30%"} height={"30%"}>
+      <Header title="My storage" />
+      <Loading
+        isLoading={loading}
+        width={"30%"}
+        height={"30%"}
+        enableBackground={true}
+      >
+        <Main>
           <FileStorageView
             files={files}
             childFolders={childFolders}
           ></FileStorageView>
-        </LoadingFullscreen>
-      </Main>
+        </Main>
+      </Loading>
     </>
   );
 }

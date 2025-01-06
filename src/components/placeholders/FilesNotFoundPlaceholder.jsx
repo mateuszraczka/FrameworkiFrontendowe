@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function FilesNotFoundPlaceholder() {
   return (
-    <div className="w-full h-full flex justify-center items-center select-none">
+    <div className="w-full h-full flex justify-center items-center select-none -z-10">
       <div className="w-48 flex flex-col items-center">
         <Image
           src={"/not-files-found.png"}

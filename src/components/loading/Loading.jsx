@@ -3,12 +3,13 @@ export default function Loading({ isLoading, children, width, height, enableBack
     <>
       <div className="relative h-full w-full">
         <div
-            className={`${enableBackground && "bg-gray-200"} h-full w-full flex justify-center items-center absolute backdrop-blur-md backdrop-opacity-80 bg-opacity-20 z-50`}
+            className={`${enableBackground && "bg-gray-200"} h-full w-full flex justify-center items-center absolute backdrop-blur-sm backdrop-opacity-20 bg-opacity-90 z-50`}
             role="status"
         >
             <svg
             aria-hidden="true"
-            className={`w-[${width}] h-[${height}] max-h-32 max-w-32 text-transparent animate-spin fill-gray-600`}
+            className="max-h-32 max-w-32 text-transparent animate-spin fill-gray-600"
+            style={{width, height}}
             viewBox="0 0 100 101"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"

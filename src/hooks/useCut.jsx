@@ -1,12 +1,12 @@
 import { useActionsContext } from "@/contexts/ActionsContext";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useFolderContext } from "@/contexts/FolderContext";
-import { foldersAndFilesPasteService } from "@/services/foldersAndFilesPasteService";
+import { foldersAndFilesCutService } from "@/services/foldersAndFilesCutService";
 import { useState } from "react";
 
-export default function usePaste() {
+export default function useCut() {
   const { state: authContextState } = useAuthContext();
-  const { dispatch: actionsDispatch } = useActionsContext();
+  const { dispatch: actionsDispatch, state } = useActionsContext();
   const { dispatch: folderDispatch } = useFolderContext();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
@@ -14,8 +14,9 @@ export default function usePaste() {
   const paste = async (body) => {
     let pasted;
     try {
+        console.log(state);
       setLoading(true);
-      pasted = await foldersAndFilesPasteService(
+      pasted = await foldersAndFilesCutService(
         authContextState.auth.accessToken.value,
         body
       );
@@ -31,5 +32,13 @@ export default function usePaste() {
     }
   };
 
-  return { paste, loading, error };
+  const cutFile = (id) => {
+    actionsDispatch({type: "CUT_FILE", payload: id});
+  }
+
+  const cutFolder = (id) => {
+    actionsDispatch({type: "CUT_FOLDER", payload: id});
+  }
+
+  return { paste, cutFile, cutFolder, loading, error };
 }

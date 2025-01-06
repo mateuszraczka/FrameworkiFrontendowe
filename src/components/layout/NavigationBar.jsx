@@ -18,7 +18,8 @@ export default function NavigationBar() {
   }
 
   const navigation = [
-    { name: 'My Storage', href: '#', current: true },
+    { name: 'My storage', href: '/my-storage', current: true },
+    { name: 'About me', href: '/about-me', current: false},
   ]
   const userNavigation = [
     { name: 'Sign out', onClick: () => dispatch({ type: 'LOGOUT' }) },
