@@ -1,6 +1,6 @@
 "use client";
 
-import LoadingFullscreen from "@/components/loading/LoadingFullscreen";
+import LoadingFullscreen from "@/components/loadings/LoadingFullscreen";
 import useRegister from "@/hooks/useRegister";
 import Link from "next/link"
 

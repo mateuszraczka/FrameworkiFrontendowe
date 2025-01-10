@@ -26,7 +26,6 @@ export default function useDownload() {
       await downloadService(token, id);
     } catch (error) {
       setError(error.message);
-      console.log(error.message);
     } finally {
       setTimeout(() => {
         setLoading(false);

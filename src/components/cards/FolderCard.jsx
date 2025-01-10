@@ -1,9 +1,10 @@
 import { useActionsContext } from "@/contexts/ActionsContext";
 import GenericFileSystemCard from "./GenericFileSystemCard";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import useCopy from "@/hooks/useCopy";
 import useCut from "@/hooks/useCut";
 import useDelete from "@/hooks/useDelete";
+import useFolderRename from "@/hooks/useFolderRename";
 
 export default function FolderCard({ name, id }) {
   const router = useRouter();
@@ -11,6 +12,7 @@ export default function FolderCard({ name, id }) {
   const { paste: pasteCopied, copyFolder } = useCopy();
   const { paste: pasteCut, cutFolder } = useCut();
   const { batchDelete } = useDelete();
+  const { toggleRenameModal } = useFolderRename();
 
   const handleDoubleClick = async () => {
     router.push(`/my-storage/${id}`);
@@ -47,17 +49,17 @@ export default function FolderCard({ name, id }) {
             actionsState.copied.filesIds.length > 0 ||
             actionsState.copied.foldersIds.length > 0
           ) {
-            await pasteCopied({
-              filesIds: actionsState.copied.filesIds,
-              foldersIds: actionsState.copied.foldersIds,
-              targetFolderId: id,
-            });
+            await pasteCopied(
+              actionsState.copied.foldersIds,
+              actionsState.copied.filesIds,
+              id
+            );
           } else {
-            await pasteCut({
-              filesIds: actionsState.cut.filesIds,
-              foldersIds: actionsState.cut.foldersIds,
-              targetFolderId: id,
-            });
+            await pasteCut(
+              actionsState.cut.foldersIds,
+              actionsState.cut.filesIds,
+              id
+            );
           }
         },
         isVisible:
@@ -68,7 +70,9 @@ export default function FolderCard({ name, id }) {
       },
       {
         title: "Rename",
-        action: () => {},
+        action: () => {
+          toggleRenameModal(name);
+        },
         isVisible: true,
       },
       {

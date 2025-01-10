@@ -3,7 +3,7 @@ import useContextMenu from "@/hooks/useContextMenu";
 import { useRef, useState } from "react";
 import ContextMenu from "../ContextMenu";
 import Image from "next/image";
-import Loading from "../loading/Loading";
+import Loading from "../loadings/Loading";
 
 export default function GenericFileSystemCard({
   name,

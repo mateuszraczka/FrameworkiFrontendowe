@@ -26,6 +26,7 @@ export default function useRootFolder() {
         type: "SET_OPENED_FOLDER",
         payload: {
           id: data.folder.id,
+          parentFolderId: data.folder.parentFolderId,
           files: data.folder.files,
           childFolders: data.folder.childFolders,
           path: data.path,
@@ -35,9 +36,7 @@ export default function useRootFolder() {
     } catch (error) {
       setError(error.message);
     } finally {
-      setTimeout(() => {
-        setLoading(false);
-      }, 400);
+      setLoading(false);
     }
   };
 

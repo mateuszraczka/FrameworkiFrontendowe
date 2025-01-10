@@ -3,12 +3,14 @@ import GenericFileSystemCard from "./GenericFileSystemCard";
 import useDelete from "@/hooks/useDelete";
 import useCopy from "@/hooks/useCopy";
 import useCut from "@/hooks/useCut";
+import useFileRename from "@/hooks/useFileRename";
 
 export default function FileCard({ name, id, icon }) {
   const { batchDelete } = useDelete();
   const { download } = useDownload();
   const { copyFile } = useCopy();
   const { cutFile } = useCut();
+  const { toggleRenameModal } = useFileRename();
 
   const contextMenuContent = {
     id,
@@ -36,7 +38,9 @@ export default function FileCard({ name, id, icon }) {
       },
       {
         title: "Rename",
-        action: async () => {},
+        action: () => {
+          toggleRenameModal(name);
+        },
         isVisible: true,
       },
       {

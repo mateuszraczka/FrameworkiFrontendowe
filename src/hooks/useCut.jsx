@@ -11,14 +11,13 @@ export default function useCut() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
 
-  const paste = async (body) => {
+  const paste = async (foldersIds, filesIds, targetFolderId) => {
     let pasted;
     try {
-        console.log(state);
       setLoading(true);
       pasted = await foldersAndFilesCutService(
         authContextState.auth.accessToken.value,
-        body
+        {foldersIds, filesIds, targetFolderId}
       );
     } catch (error) {
       setError(error.message);

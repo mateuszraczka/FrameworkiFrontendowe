@@ -4,7 +4,7 @@ import { getRootFolderService } from "@/services/getRootFolderService";
 import { useState } from "react";
 
 export default function useRootFolder() {
-  const { state: authContextState } = useAuthContext()
+  const { state: authContextState } = useAuthContext();
   const { state: folderState, dispatch: dispatchFolder } = useFolderContext();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
@@ -22,18 +22,19 @@ export default function useRootFolder() {
 
       const data = await getRootFolderService(token);
 
-      dispatchFolder({type: "SET_OPENED_FOLDER", payload: {
-        id: data.id,
-        files: data.files,
-        childFolders: data.childFolders,
-        path: []
-      }})
+      dispatchFolder({
+        type: "SET_OPENED_FOLDER",
+        payload: {
+          id: data.id,
+          files: data.files,
+          childFolders: data.childFolders,
+          path: [],
+        },
+      });
     } catch (error) {
       setError(error.message);
     } finally {
-      setTimeout(() => {
-        setLoading(false);
-      }, 400)
+      setLoading(false);
     }
   };
 

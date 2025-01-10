@@ -1,11 +1,11 @@
 "use client";
 
-import Header from "@/components/layout/Header";
-import Main from "@/components/layout/Main";
+import Header from "@/components/layouts/Header";
+import Main from "@/components/layouts/Main";
 import useOpenRootFolder from "@/hooks/useOpenRootFolder";
 import { useEffect } from "react";
-import Loading from "@/components/loading/Loading";
-import FileStorageView from "@/components/layout/FileStorageView";
+import Loading from "@/components/loadings/Loading";
+import FileStorageView from "@/components/views/FileStorageView";
 
 export default function HomePage() {
   const { files, childFolders, getFolder, loading } = useOpenRootFolder();
@@ -24,10 +24,12 @@ export default function HomePage() {
         enableBackground={true}
       >
         <Main>
-          <FileStorageView
-            files={files}
-            childFolders={childFolders}
-          ></FileStorageView>
+          {!loading && (
+            <FileStorageView
+              files={files}
+              childFolders={childFolders}
+            ></FileStorageView>
+          )}
         </Main>
       </Loading>
     </>

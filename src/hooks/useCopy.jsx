@@ -11,13 +11,13 @@ export default function useCopy() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
 
-  const paste = async (body) => {
+  const paste = async (foldersIds, filesIds, targetFolderId) => {
     let pasted;
     try {
       setLoading(true);
       pasted = await foldersAndFilesCopyService(
         authContextState.auth.accessToken.value,
-        body
+        {foldersIds, filesIds, targetFolderId}
       );
     } catch (error) {
       setError(error.message);

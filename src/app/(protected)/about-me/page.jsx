@@ -1,5 +1,5 @@
-import Header from "@/components/layout/Header";
-import Main from "@/components/layout/Main";
+import Header from "@/components/layouts/Header";
+import Main from "@/components/layouts/Main";
 
 export default function AboutMePage(){
     return (

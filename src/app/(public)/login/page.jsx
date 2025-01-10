@@ -1,16 +1,16 @@
 "use client";
 
-import LoadingFullscreen from "@/components/loading/LoadingFullscreen";
+import LoadingFullscreen from "@/components/loadings/LoadingFullscreen";
 import useLogin from "@/hooks/useLogin";
 import Link from "next/link"
 
 export default function LoginPage() {
     const {login, loading} = useLogin();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const {email: emailElement, password: passwordElement} = e.currentTarget.elements;
-        login(emailElement.value, passwordElement.value);
+        await login(emailElement.value, passwordElement.value);
     };
 
     return (

@@ -1,5 +1,6 @@
 export const initialState = {
   id: null,
+  parentFolderId: null,
   childFolders: [],
   files: [],
   path: [],
@@ -11,6 +12,7 @@ export default function FolderReducer(state = initialState, action) {
       return {
         ...state,
         id: action.payload.id,
+        parentFolderId: action.payload.parentFolderId,
         childFolders: action.payload.childFolders,
         files: action.payload.files,
         path: action.payload.path,
@@ -27,19 +29,27 @@ export default function FolderReducer(state = initialState, action) {
         ...state,
         files: [
           ...state.files,
-          ...action.payload.files.filter(
-            (file) => !state.files.some((cf) => cf.id === file.id)
-          ),
+          ...action.payload.files
         ],
         childFolders: [
           ...state.childFolders,
-          ...action.payload.childFolders.filter(
-            (folder) =>
-              folder.id !== state.id &&
-              !state.childFolders.some((cf) => cf.id === folder.id)
-          ),
+          ...action.payload.childFolders
         ],
       };
+    case "RENAME_FOLDER":
+      return {
+        ...state,
+        childFolders: state.childFolders.map((cf) =>
+          cf.id === action.payload.id ? { ...cf, name: action.payload.name } : cf
+        ),
+      };
+    case "RENAME_FILE":
+      return {
+        ...state,
+        files: state.files.map((f) => 
+          f.id === action.payload.id ? { ...cf, name: action.payload.name }: f
+        ),
+      }
     case "BATCH_DELETE_FILES":
       return {
         ...state,

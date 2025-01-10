@@ -2,21 +2,30 @@
 
 import { useAuthContext } from "@/contexts/AuthContext";
 import { redirect } from "next/navigation";
-import NavigationBar from "@/components/layout/NavigationBar";
-import DownloadInfo from "@/components/info/DownloadInfo";
+import NavigationBar from "@/components/layouts/NavigationBar";
+import DownloadInfo from "@/components/infos/DownloadInfo";
+import ActionsContextProvider from "@/contexts/ActionsContext";
+import FolderContextProvider from "@/contexts/FolderContext";
+import ContextMenuContextProvider from "@/contexts/ContextMenuContext";
 
-export default function ProtectedLayout({ children }){
-    const { state } = useAuthContext();
+export default function ProtectedLayout({ children }) {
+  const { state } = useAuthContext();
 
-    if (!state.auth){
-        redirect("/login");
-    }
+  if (!state.auth) {
+    redirect("/login");
+  }
 
-    return (
-        <div className="flex flex-col h-screen relative overflow-hidden">
+  return (
+    <ContextMenuContextProvider>
+      <FolderContextProvider>
+        <ActionsContextProvider>
+          <div className="flex flex-col h-screen relative overflow-hidden">
             <NavigationBar></NavigationBar>
             {children}
             <DownloadInfo></DownloadInfo>
-        </div>
-    )
+          </div>
+        </ActionsContextProvider>
+      </FolderContextProvider>
+    </ContextMenuContextProvider>
+  );
 }

@@ -5,11 +5,12 @@ import ContextMenu from "../ContextMenu";
 import { useFolderContext } from "@/contexts/FolderContext";
 import { useActionsContext } from "@/contexts/ActionsContext";
 import useCopy from "@/hooks/useCopy";
-import Loading from "../loading/Loading";
+import Loading from "../loadings/Loading";
 import useCut from "@/hooks/useCut";
+import useCreateNewFolder from "@/hooks/useCreateNewFolder";
 import FilesNotFoundPlaceholder from "../placeholders/FilesNotFoundPlaceholder";
 
-export default function FilesGrid({ children, isEmpty }) {
+export default function FilesGrid({ children }) {
   const gridWrapperRef = useRef(null);
   const { state: contextMenuState, dispatch: dispatchContextMenu } =
     useContextMenuContext();
@@ -23,13 +24,16 @@ export default function FilesGrid({ children, isEmpty }) {
   const [loading, setLoading] = useState(false);
   const { paste: pasteCopied } = useCopy();
   const { paste: pasteCut } = useCut();
+  const { toggleNewFolderModal } = useCreateNewFolder();
 
   const contextMenuContent = {
     id: folderState.id,
     options: [
       {
         title: "New Folder",
-        action: "NEW_FOLDER",
+        action: () => {
+          toggleNewFolderModal();
+        },
         isVisible: true,
       },
       {
@@ -44,17 +48,17 @@ export default function FilesGrid({ children, isEmpty }) {
             actionsState.copied.filesIds.length > 0 ||
             actionsState.copied.foldersIds.length > 0
           ) {
-            await pasteCopied({
-              filesIds: actionsState.copied.filesIds,
-              foldersIds: actionsState.copied.foldersIds,
-              targetFolderId: folderState.id,
-            });
+            await pasteCopied(
+              actionsState.copied.foldersIds,
+              actionsState.copied.filesIds,
+              folderState.id
+            );
           } else {
-            await pasteCut({
-              filesIds: actionsState.cut.filesIds,
-              foldersIds: actionsState.cut.foldersIds,
-              targetFolderId: folderState.id,
-            });
+            await pasteCut(
+              actionsState.cut.foldersIds,
+              actionsState.cut.filesIds,
+              folderState.id
+            );
           }
         },
         isVisible:
@@ -69,7 +73,7 @@ export default function FilesGrid({ children, isEmpty }) {
   return (
     <Loading isLoading={loading} width={"30%"} height={"30%"}>
       <div ref={gridWrapperRef} className="relative h-full z-10">
-        {isEmpty ? (
+        {folderState.childFolders.length < 1 && folderState.files.length < 1 ? (
           <FilesNotFoundPlaceholder></FilesNotFoundPlaceholder>
         ) : (
           <div className="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-10 gap-2">
