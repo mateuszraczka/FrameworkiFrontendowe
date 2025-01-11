@@ -9,12 +9,15 @@ import NewFolderForm from "../forms/NewFolderForm";
 import useFileRename from "@/hooks/useFileRename";
 import useCreateNewFolder from "@/hooks/useCreateNewFolder";
 import useFolderRename from "@/hooks/useFolderRename";
+import useUploadFile from "@/hooks/useUploadFile";
+import UploadfileForm from "../forms/UploadFileForm";
 
 export default function FileStorageView({ childFolders, files }) {
   const { state: actionsState } = useActionsContext();
   const { toggleRenameModal: toggleFileRenameModal } = useFileRename();
   const { toggleRenameModal: toggleFolderRenameModal } = useFolderRename();
   const { toggleNewFolderModal } = useCreateNewFolder();
+  const { toggleUploadFileModal } = useUploadFile();
 
   return (
     <>
@@ -37,6 +40,7 @@ export default function FileStorageView({ childFolders, files }) {
             />
           ))}
       </FilesGrid>
+
       {actionsState.openedFileRenameModal.isOpened && (
         <Modal onClick={toggleFileRenameModal}>
           <RenameFileForm
@@ -52,11 +56,15 @@ export default function FileStorageView({ childFolders, files }) {
         </Modal>
       )}
       {actionsState.openedNewFolderModal.isOpened && (
-        <Modal
-          onClick={toggleNewFolderModal}
-          currentName={actionsState.openedNewFolderModal.name}
-        >
-          <NewFolderForm></NewFolderForm>
+        <Modal onClick={toggleNewFolderModal}>
+          <NewFolderForm
+            currentName={actionsState.openedNewFolderModal.name}
+          ></NewFolderForm>
+        </Modal>
+      )}
+      {actionsState.openedUploadFileModal.isOpened && (
+        <Modal onClick={toggleUploadFileModal}>
+          <UploadfileForm></UploadfileForm>
         </Modal>
       )}
     </>

@@ -2,7 +2,7 @@ import useCreateNewFolder from "@/hooks/useCreateNewFolder";
 import { useFolderContext } from "@/contexts/FolderContext";
 import { useState } from "react";
 
-export default function NewFolderForm({currentName}) {
+export default function NewFolderForm({currentName = ""}) {
     const [name, setName] = useState(currentName);
     const { createFolder, toggleNewFolderModal } = useCreateNewFolder();
       const { state: folderState } = useFolderContext();
@@ -11,8 +11,8 @@ export default function NewFolderForm({currentName}) {
         setName(e.target.value);
     }
 
-    const handleClick = async () => {
-        await createFolder(folderState.id, name);
+    const handleClick = () => {
+        createFolder(folderState.id, name);
         toggleNewFolderModal();
     }
 
@@ -34,7 +34,7 @@ export default function NewFolderForm({currentName}) {
           className="block w-full rounded-md bg-white px-3.5 py-2 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
         ></input>
       </div>
-      <button onClick={handleClick} className="">Submit</button>
+      <button className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 focus:outline-none disabled:opacity-50" onClick={handleClick}>Submit</button>
     </div>
   );
 }

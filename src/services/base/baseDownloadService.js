@@ -1,7 +1,7 @@
 import axios from "axios";
 import { saveAs } from "file-saver";
 
-export async function baseDownloadService(token, endpoint) {
+export async function baseDownloadService(token, endpoint, name) {
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
     const url = baseUrl + endpoint;
 
@@ -13,10 +13,9 @@ export async function baseDownloadService(token, endpoint) {
             responseType: "blob",
         });
 
-        const contentDisposition = response.headers["content-disposition"];
-        const filename = contentDisposition
-            ? contentDisposition.split("filename=")[1]?.replace(/"/g, "").trim()
-            : "downloaded_file";
+        const filename = name == null
+            ? "downloaded_file"
+            : name
 
         saveAs(response.data, filename);
     } catch (error) {

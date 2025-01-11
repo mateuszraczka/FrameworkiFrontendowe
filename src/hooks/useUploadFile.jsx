@@ -1,38 +1,33 @@
 import { useActionsContext } from "@/contexts/ActionsContext";
 import { useState } from "react";
 import { useAuthContext } from "@/contexts/AuthContext";
-import { createNewFolderService } from "@/services/createNewFolderService";
 import { useFolderContext } from "@/contexts/FolderContext";
+import { uploadFileService } from "@/services/uploadFileService";
 
-export default function useAddFolder() {
+export default function useUploadFile() {
   const { state: authContextState } = useAuthContext();
   const { dispatch: dispatchActions } = useActionsContext();
   const { dispatch: dispatchFolder } = useFolderContext();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
 
-  const createFolder = async (parentFolderId, name) => {
-    let folder;
+  const uploadFile = async (folderId, file) => {
+    let uploadedFile;
     try {
       var token = authContextState.auth.accessToken.value;
-      folder = await createNewFolderService(token, {
-        parentFolderId,
-        folderDetails: {
-          name,
-        },
-      });
+      uploadedFile = await uploadFileService(token, folderId, file);
       setLoading(true);
     } catch (error) {
       setError(error.message);
     } finally {
       setLoading(false);
-      dispatchFolder({type: "ADD_FOLDERS_FILES", payload: {childFolders: [folder], files: []}})
+      dispatchFolder({type: "ADD_FOLDERS_FILES", payload: {files: [uploadedFile], childFolders: []}})
     }
   };
 
-  const toggleNewFolderModal = () => {
-    dispatchActions({ type: "TOGGLE_NEW_FOLDER_MODAL" });
+  const toggleUploadFileModal = () => {
+    dispatchActions({ type: "TOGGLE_UPLOAD_FILE_MODAL" });
   };
 
-  return { createFolder, toggleNewFolderModal, loading, error };
+  return { uploadFile, toggleUploadFileModal, loading, error };
 }

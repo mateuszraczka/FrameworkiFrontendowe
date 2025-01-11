@@ -2,7 +2,7 @@ import { useFolderContext } from "@/contexts/FolderContext";
 import useFolderRename from "@/hooks/useFolderRename";
 import { useState } from "react";
 
-export default function RenameFolderForm({currentName}) {
+export default function RenameFolderForm({currentName = ""}) {
     const [name, setName] = useState(currentName);
     const { state: folderState } = useFolderContext();
     const { rename, toggleRenameModal } = useFolderRename();
@@ -34,7 +34,7 @@ export default function RenameFolderForm({currentName}) {
           className="block w-full rounded-md bg-white px-3.5 py-2 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
         ></input>
       </div>
-      <button onClick={handleClick}>Submit</button>
+      <button className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 focus:outline-none disabled:opacity-50" onClick={handleClick}>Submit</button>
     </div>
   );
 }

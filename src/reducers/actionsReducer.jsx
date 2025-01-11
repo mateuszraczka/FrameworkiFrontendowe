@@ -20,7 +20,7 @@ export const initialState = {
     name: "New folder",
     isOpened: false,
   },
-  openedAddFileModal: {
+  openedUploadFileModal: {
     isOpened: false,
   }
 };
@@ -77,7 +77,7 @@ export default function ActionsReducer(state = initialState, action) {
     case "TOGGLE_FILE_RENAME_MODAL":
       return {
         ...state,
-        openedRenameModal: {
+        openedFileRenameModal: {
           name: action.payload.name,
           isOpened: !state.openedFileRenameModal.isOpened,
         },
@@ -85,7 +85,7 @@ export default function ActionsReducer(state = initialState, action) {
     case "TOGGLE_FOLDER_RENAME_MODAL":
       return {
         ...state,
-        openedRenameModal: {
+        openedFolderRenameModal: {
           name: action.payload.name,
           isOpened: !state.openedFolderRenameModal.isOpened,
         },
@@ -98,6 +98,14 @@ export default function ActionsReducer(state = initialState, action) {
           isOpened: !state.openedNewFolderModal.isOpened,
         },
       };
+    case "TOGGLE_UPLOAD_FILE_MODAL":
+        return {
+            ...state,
+            openedUploadFileModal: {
+                ...state.openedUploadFileModal,
+                isOpened: !state.openedUploadFileModal.isOpened,
+            }
+        }
     case "REMOVE_DOWNLOAD":
       const updatedDownloading = state.downloading.filter(
         (download) => download.id !== action.payload

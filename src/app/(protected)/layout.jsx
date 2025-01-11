@@ -7,6 +7,7 @@ import DownloadInfo from "@/components/infos/DownloadInfo";
 import ActionsContextProvider from "@/contexts/ActionsContext";
 import FolderContextProvider from "@/contexts/FolderContext";
 import ContextMenuContextProvider from "@/contexts/ContextMenuContext";
+import Footer from "@/components/layouts/Footer";
 
 export default function ProtectedLayout({ children }) {
   const { state } = useAuthContext();
@@ -22,6 +23,7 @@ export default function ProtectedLayout({ children }) {
           <div className="flex flex-col h-screen relative overflow-hidden">
             <NavigationBar></NavigationBar>
             {children}
+            <Footer></Footer>
             <DownloadInfo></DownloadInfo>
           </div>
         </ActionsContextProvider>

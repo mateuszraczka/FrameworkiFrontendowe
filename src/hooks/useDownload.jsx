@@ -23,14 +23,14 @@ export default function useDownload() {
         type: "ADD_DOWNLOAD",
         payload: { id, name },
       });
-      await downloadService(token, id);
+      await downloadService(token, id, name);
     } catch (error) {
       setError(error.message);
     } finally {
+      setLoading(false);
       setTimeout(() => {
-        setLoading(false);
         actionsDispatch({ type: "REMOVE_DOWNLOAD", payload: id });
-      }, 400);
+      }, 2000);
     }
   };
 

@@ -9,6 +9,7 @@ import Loading from "../loadings/Loading";
 import useCut from "@/hooks/useCut";
 import useCreateNewFolder from "@/hooks/useCreateNewFolder";
 import FilesNotFoundPlaceholder from "../placeholders/FilesNotFoundPlaceholder";
+import useUploadFile from "@/hooks/useUploadFile";
 
 export default function FilesGrid({ children }) {
   const gridWrapperRef = useRef(null);
@@ -25,6 +26,7 @@ export default function FilesGrid({ children }) {
   const { paste: pasteCopied } = useCopy();
   const { paste: pasteCut } = useCut();
   const { toggleNewFolderModal } = useCreateNewFolder();
+  const { toggleUploadFileModal } = useUploadFile();
 
   const contextMenuContent = {
     id: folderState.id,
@@ -38,7 +40,9 @@ export default function FilesGrid({ children }) {
       },
       {
         title: "Upload Files",
-        action: "UPLOAD_FILES",
+        action: () => {
+          toggleUploadFileModal();
+        },
         isVisible: true,
       },
       {
@@ -72,11 +76,11 @@ export default function FilesGrid({ children }) {
 
   return (
     <Loading isLoading={loading} width={"30%"} height={"30%"}>
-      <div ref={gridWrapperRef} className="relative h-full z-10">
+      <div ref={gridWrapperRef} className="relative h-full z-10 bg-gray-100 p-4 rounded-2xl">
         {folderState.childFolders.length < 1 && folderState.files.length < 1 ? (
           <FilesNotFoundPlaceholder></FilesNotFoundPlaceholder>
         ) : (
-          <div className="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-10 gap-2">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-8 lg:grid-cols-11 gap-2">
             {children}
           </div>
         )}
