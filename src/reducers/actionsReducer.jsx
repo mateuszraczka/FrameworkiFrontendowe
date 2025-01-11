@@ -10,10 +10,12 @@ export const initialState = {
   downloading: [],
   openedFileRenameModal: {
     name: "",
+    id: null,
     isOpened: false,
   },
   openedFolderRenameModal: {
     name: "",
+    id: null,
     isOpened: false,
   },
   openedNewFolderModal: {
@@ -79,6 +81,7 @@ export default function ActionsReducer(state = initialState, action) {
         ...state,
         openedFileRenameModal: {
           name: action.payload.name,
+          id: action.payload.id,
           isOpened: !state.openedFileRenameModal.isOpened,
         },
       };
@@ -87,6 +90,7 @@ export default function ActionsReducer(state = initialState, action) {
         ...state,
         openedFolderRenameModal: {
           name: action.payload.name,
+          id: action.payload.id,
           isOpened: !state.openedFolderRenameModal.isOpened,
         },
       };

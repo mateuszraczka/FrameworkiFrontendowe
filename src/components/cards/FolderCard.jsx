@@ -71,7 +71,7 @@ export default function FolderCard({ name, id }) {
       {
         title: "Rename",
         action: () => {
-          toggleRenameModal(name);
+          toggleRenameModal(name, id);
         },
         isVisible: true,
       },

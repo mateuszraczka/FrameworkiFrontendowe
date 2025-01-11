@@ -39,7 +39,7 @@ export default function FileCard({ name, id, icon }) {
       {
         title: "Rename",
         action: () => {
-          toggleRenameModal(name);
+          toggleRenameModal(name, id);
         },
         isVisible: true,
       },

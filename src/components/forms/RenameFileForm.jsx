@@ -1,10 +1,10 @@
-import { useFolderContext } from "@/contexts/FolderContext";
+import { useActionsContext } from "@/contexts/ActionsContext";
 import useFileRename from "@/hooks/useFileRename";
 import { useState } from "react";
 
 export default function RenameFileForm({currentName = ""}) {
     const [name, setName] = useState(currentName);
-    const { state: folderState } = useFolderContext();
+    const { state: actionsState } = useActionsContext();
     const { rename, toggleRenameModal } = useFileRename();
   
     const handleOnChange = (e) => {
@@ -12,7 +12,7 @@ export default function RenameFileForm({currentName = ""}) {
     }
 
     const handleClick = async () => {
-        await rename(folderState.id, name);
+        rename(actionsState.openedFileRenameModal.id, name);
         toggleRenameModal();
     }
 

@@ -24,8 +24,8 @@ export default function useFileRename() {
     }
   };
 
-  const toggleRenameModal = (name) => {
-    dispatchActions({ type: "TOGGLE_FILE_RENAME_MODAL", payload: { name } });
+  const toggleRenameModal = (name, id) => {
+    dispatchActions({ type: "TOGGLE_FILE_RENAME_MODAL", payload: { name, id } });
   };
 
   return { rename, toggleRenameModal, loading, error };

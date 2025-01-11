@@ -36,20 +36,21 @@ export default function FolderReducer(state = initialState, action) {
           ...action.payload.childFolders
         ],
       };
-    case "RENAME_FOLDER":
-      return {
-        ...state,
-        childFolders: state.childFolders.map((cf) =>
-          cf.id === action.payload.id ? { ...cf, name: action.payload.name } : cf
-        ),
-      };
-    case "RENAME_FILE":
-      return {
-        ...state,
-        files: state.files.map((f) => 
-          f.id === action.payload.id ? { ...cf, name: action.payload.name }: f
-        ),
-      }
+      case "RENAME_FOLDER":
+        return {
+          ...state,
+          childFolders: state.childFolders.map((cf) =>
+            cf.id === action.payload.id ? { ...cf, folderDetails: { ...cf.folderDetails, name: action.payload.name} } : cf
+          ),
+        };
+      
+      case "RENAME_FILE":
+        return {
+          ...state,
+          files: state.files.map((f) =>
+            f.id === action.payload.id ? { ...f, fileDetails: { ...f.fileDetails, name: action.payload.name} } : f
+          ),
+        };
     case "BATCH_DELETE_FILES":
       return {
         ...state,

@@ -1,7 +1,7 @@
-import { basePostService } from './base/basePostService';
+import { basePatchService } from './base/basePatchService';
 
 export async function renameFileService(token, body) {
     const endpoint = "/file/rename";
     
-    return await basePostService(token, endpoint, body);
+    return await basePatchService(token, endpoint, body);
 }
